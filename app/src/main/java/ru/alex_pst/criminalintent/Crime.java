@@ -19,6 +19,10 @@ public class Crime {
         mId = UUID.randomUUID();
         mDate = new Date();
     }
+    @Override
+    public String toString(){
+        return mTitle;
+    }
 
     public UUID getId() {
         return mId;
@@ -27,6 +31,8 @@ public class Crime {
     public String getTitle() {
         return mTitle;
     }
+
+
 
     public void setTitle(String title) {
         mTitle = title;

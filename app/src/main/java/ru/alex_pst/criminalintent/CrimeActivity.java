@@ -1,35 +1,29 @@
 package ru.alex_pst.criminalintent;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-public class CrimeActivity extends FragmentActivity {
+import java.util.UUID;
 
+public class CrimeActivity extends SingleFragmentActivity {
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-
-        initFrag();
-
-
+    protected Fragment createFragment(){
+        UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
+        return CrimeFragment.newIntance(crimeId);
     }
-
-    protected void initFrag(){
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
-
-        if (fragment == null){
-            fragment = new CrimeFragment();
-            fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
-        }
 
     }
 
 
-    }
+
+
+
 
 
 

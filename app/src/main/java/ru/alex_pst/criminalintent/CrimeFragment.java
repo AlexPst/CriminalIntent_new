@@ -5,6 +5,7 @@ import android.icu.util.GregorianCalendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import java.util.UUID;
 
 /**
  * Created by Alex_ on 05.03.2017.
@@ -27,6 +30,8 @@ public class CrimeFragment extends android.support.v4.app.Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+
+    public static final String EXTRA_CRIME_ID = "criminalintent.CRIME_ID";
 
 
 
@@ -45,10 +50,10 @@ public class CrimeFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        View view = inflater.inflate(R.layout.fragment_crime, container, false);
 
 
-        mTitleField = (EditText)v.findViewById(R.id.crime_title);
+        mTitleField = (EditText)view.findViewById(R.id.crime_title);
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -71,12 +76,12 @@ public class CrimeFragment extends android.support.v4.app.Fragment {
 
         Calendar cal = new GregorianCalendar(2013, 11, 20);
         String date = DateUtils.formatDateTime(getContext(), cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE);
-        mDateButton = (Button)v.findViewById(R.id.crime_date);
+        mDateButton = (Button)view.findViewById(R.id.crime_date);
         mDateButton.setText(date);
        // mDateButton.setText(mCrime.getDate().toString());
         mDateButton.setEnabled(false);
 
-        mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
+        mSolvedCheckBox = (CheckBox)view.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -85,10 +90,16 @@ public class CrimeFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        return v;
+        return view;
     }
 
 
+    public static CrimeFragment newIntance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_CRIME_ID, crimeId);
 
-
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 }

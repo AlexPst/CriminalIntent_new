@@ -12,20 +12,18 @@ import java.util.UUID;
 
 public class CrimeLab {
 
+
+    private ArrayList<Crime> mCrimes;
+
     private static CrimeLab sCrimeLab;
-    private List<Crime> mCrimes;
+    private Context mAppContext;
 
 
-    public static CrimeLab get(Context context) {
-        if (sCrimeLab == null) {
-            sCrimeLab = new CrimeLab(context);
-        }
-        return sCrimeLab;
-    }
 
-    private CrimeLab(Context context) {
-        //mAppContext = appContext;
-        mCrimes = new ArrayList<>();
+
+    private CrimeLab(Context appContext) {
+        mAppContext = appContext;
+        mCrimes = new ArrayList<Crime>();
         for (int i = 0; i < 100; i++) {
             Crime crime = new Crime();
             crime.setTitle("Crime #" + i);
@@ -34,16 +32,26 @@ public class CrimeLab {
         }
 
     }
+    public static CrimeLab get(Context crime) {
+        if (sCrimeLab == null) {
+            sCrimeLab = new CrimeLab(crime.getApplicationContext());
+        }
+        return sCrimeLab;
+    }
 
-    public Crime getCrimes(UUID id) {
-        for (Crime crime : mCrimes) {
-            if (crime.getId().equals(id)) {
+    public Crime getCrimes(UUID id){
+        for (Crime crime : mCrimes){
+            if( crime.getId().equals(id))
                 return crime;
-            }
         }
         return null;
     }
 
 
-}
+
+        public ArrayList<Crime> getCrimes(){
+        return mCrimes;
+        }
+    }
+
     
